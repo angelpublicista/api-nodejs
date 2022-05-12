@@ -1,11 +1,13 @@
 const express = require('express')
 const mysql = require('mysql')
-const myconn = require('express-myconnection')
+// const myconn = require('express-myconnection')
 // const routes = require('./routes')
+const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const bookRoute = require("./routes/Book")
+const userRoute = require("./routes/User")
 
 const app = express()
 app.set('port', process.env.PORT || 9000)
@@ -32,13 +34,14 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(cors())
 // app.use(myconn(mysql, dbOptions, 'single'))
 app.use(express.json())
-
+app.use(bodyParser.json())
 // Routes
 app.get('/api', (req, res)=>{
     res.send('Welcome to my app')
 })
 
 app.use('/api/books', bookRoute)
+app.use('/api/users', userRoute)
 
 // Server running
 app.listen(app.get('port'), () => {
