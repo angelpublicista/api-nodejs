@@ -1,4 +1,5 @@
 const userSchema = require('../models/User')
+const jwt = require('jsonwebtoken')
 
 module.exports = {
     get: (req, res) => {
@@ -13,8 +14,16 @@ module.exports = {
         user.save().then((data) => res.json(data)).catch((error) => res.json({message: error}))
     },
 
-    register: (req, res) => {
-        const userReg = userSchema(req.body) 
-        userReg.save().then((data) => res.json(data)).catch((error) => res.json({message: error}))
+    posts: (req, res)=>{
+        jwt.verify(req.token, 'secretkey', (error, authData) => {
+            if(error){
+                res.sendStatus(403)
+            } else {
+                res.json({
+                    message: "Post fue creado",
+                    authData
+                })
+            }
+        })
     }
 }

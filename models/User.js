@@ -20,14 +20,26 @@ const userSchema = mongoose.Schema({
         required: true
     },
 
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+
+    role:{
+        type: Number,
+        required: true,
+        default: 2
+    },
+
     active:{
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     }
 })
 
 userSchema.pre('save', function(next){
-    console.log(this.password)
     bcrypt.hash(this.password, saltRounds , (err, hash) => {
         this.password = hash
         next()
