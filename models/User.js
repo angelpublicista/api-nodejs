@@ -6,13 +6,23 @@ const saltRounds = 10
 const userSchema = mongoose.Schema({
     userName:{
         type: String,
-        required: true,
         unique: true
+    },
+
+    firstname:{
+        type: String,
+        required: true
+    },
+
+    lastname:{
+        type: String,
+        required: true
     },
 
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     password: {
@@ -22,27 +32,28 @@ const userSchema = mongoose.Schema({
 
     date: {
         type: Date,
-        required: true,
         default: Date.now
     },
 
     role:{
         type: Number,
-        required: true,
         default: 2
     },
 
     active:{
         type: Boolean,
-        required: true,
         default: false
     }
 })
 
 userSchema.pre('save', function(next){
     bcrypt.hash(this.password, saltRounds , (err, hash) => {
-        this.password = hash
-        next()
+        if(!err){
+            this.password = hash
+            next()
+        } else {
+            return err
+        }
     })
 })
 
