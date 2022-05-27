@@ -1,8 +1,7 @@
 const conn = require('../utils/database')
-const bcrypt = require('bcrypt')
 
 module.exports = {
-    getAllUsers: (req, res) => {
+    getAllPlans: (req, res) => {
         conn.getConnection(function(err, conn){
             if(err){
                 res.status(500).json({
@@ -13,7 +12,7 @@ module.exports = {
             }
 
             if(conn){
-                conn.query('SELECT * FROM user', (err, data) => {
+                conn.query('SELECT * FROM plan', (err, data) => {
                     if(err){
                         res.status(404).json({
                             success: false,
@@ -27,7 +26,7 @@ module.exports = {
                         success: true,
                         message: "Data found",
                         data: {
-                            books: data
+                            plans: data
                         }
                     })
                 })
@@ -35,7 +34,7 @@ module.exports = {
         })
     },
 
-    createUser: (req, res) => {
+    createPlan: (req, res) => {
         conn.getConnection(function(err, conn){
             if(err){
                 res.status(500).json({
@@ -46,7 +45,7 @@ module.exports = {
             }
 
             if(conn){
-                conn.query('INSERT INTO user set ?', [req.body] , (err, data) => {
+                conn.query('INSERT INTO plan set ?', [req.body] , (err, data) => {
                     if(err){
                         res.status(404).json({
                             success: false,
@@ -58,7 +57,7 @@ module.exports = {
 
                     res.status(200).json({
                         success: true,
-                        message: "User added",
+                        message: "Plan added",
                         data: req.body
                     })
                 })
@@ -66,7 +65,7 @@ module.exports = {
         })
     },
 
-    updateUser: (req, res) => {
+    updatePlan: (req, res) => {
         conn.getConnection(function(err, conn){
             if(err){
                 res.status(500).json({
@@ -77,7 +76,7 @@ module.exports = {
             }
 
             if(conn){
-                conn.query('UPDATE user set ? WHERE id = ?', [req.body, req.params.id] , (err, data) => {
+                conn.query('UPDATE plan set ? WHERE id = ?', [req.body, req.params.id] , (err, data) => {
                     if(err){
                         res.status(404).json({
                             success: false,
@@ -89,7 +88,7 @@ module.exports = {
 
                     res.status(200).json({
                         success: true,
-                        message: "User updated",
+                        message: "Plan updated",
                         data: req.body
                     })
                 })
@@ -97,7 +96,7 @@ module.exports = {
         })
     },
 
-    deleteUser: (req, res) => {
+    deletePlan: (req, res) => {
         conn.getConnection(function(err, conn){
             if(err){
                 res.status(500).json({
@@ -108,7 +107,7 @@ module.exports = {
             }
 
             if(conn){
-                conn.query('DELETE FROM user WHERE id = ?', [req.params.id] , (err, data) => {
+                conn.query('DELETE FROM plan WHERE id = ?', [req.params.id] , (err, data) => {
                     if(err){
                         res.status(404).json({
                             success: false,
@@ -120,7 +119,7 @@ module.exports = {
 
                     res.status(200).json({
                         success: true,
-                        message: "User deleted",
+                        message: "Plan deleted",
                         data: req.body
                     })
                 })
@@ -128,7 +127,7 @@ module.exports = {
         })
     },
 
-    getUserById: (req, res) => {
+    getPlanById: (req, res) => {
         conn.getConnection(function(err, conn){
             if(err){
                 res.status(500).json({
@@ -139,7 +138,7 @@ module.exports = {
             }
 
             if(conn){
-                conn.query('SELECT * FROM user WHERE id = ?', [req.params.id] , (err, data) => {
+                conn.query('SELECT * FROM plan WHERE id = ?', [req.params.id] , (err, data) => {
                     if(err){
                         res.status(404).json({
                             success: false,
